@@ -1,6 +1,6 @@
-package Sklep1024.entity;
+package entity;
 
-public class Boots extends Product {
+public class Boots extends entity.Product {
     private Integer size;
     private boolean isNaturalSkin;
 

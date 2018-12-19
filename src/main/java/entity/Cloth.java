@@ -1,6 +1,6 @@
-package Sklep1024.entity;
+package entity;
 
-public class Cloth extends Product {
+public class Cloth extends entity.Product {
     private String size;
     private String material;
 

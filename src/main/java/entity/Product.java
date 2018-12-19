@@ -1,4 +1,4 @@
-package Sklep1024.entity;
+package entity;
 
 public class Product {
     private Long id;
