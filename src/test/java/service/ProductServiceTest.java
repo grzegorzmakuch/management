@@ -93,4 +93,71 @@ public class ProductServiceTest {
 
         Assert.assertEquals(null, product);
     }
+
+    @Test
+    public void testIsProductOnWarehouseWhenIs() {
+        List<Product> products = new ArrayList<Product>();
+        products.add(new Boots(1l, "mammut", 350f, 50f, "black", 3, 44, true));
+
+        ProductServiceImpl productService = new ProductServiceImpl(products);
+        boolean isProductOnWarehouse = productService.isProductOnWarehouse("mammut");
+
+//        Assert.assertEquals(true, isProductOnWarehouse);
+        Assert.assertTrue(isProductOnWarehouse);
+    }
+
+    @Test
+    public void testIsProductOnWarehouseWhenIsNot() {
+        List<Product> products = new ArrayList<Product>();
+        products.add(new Boots(1l, "mammut", 350f, 50f, "black", 3, 44, true));
+
+        ProductServiceImpl productService = new ProductServiceImpl(products);
+        boolean isProductOnWarehouse = productService.isProductOnWarehouse("inny");
+
+        Assert.assertFalse(isProductOnWarehouse);
+    }
+
+    @Test
+    public void testIsProductExistByNameWhenExist() {
+        List<Product> products = new ArrayList<Product>();
+        products.add(new Boots(1l, "mammut", 350f, 50f, "black", 3, 44, true));
+
+        ProductServiceImpl productService = new ProductServiceImpl(products);
+        boolean isProductExist = productService.isProductExist("mammut");
+
+        Assert.assertTrue(isProductExist);
+    }
+
+    @Test
+    public void testIsProductExistByNameWhenNoExist() {
+        List<Product> products = new ArrayList<Product>();
+        products.add(new Boots(1l, "mammut", 350f, 50f, "black", 3, 44, true));
+
+        ProductServiceImpl productService = new ProductServiceImpl(products);
+        boolean isProductExist = productService.isProductExist("inny");
+
+        Assert.assertFalse(isProductExist);
+    }
+
+    @Test
+    public void testIsProductExistByIdWhenExist() {
+        List<Product> products = new ArrayList<Product>();
+        products.add(new Boots(1l, "mammut", 350f, 50f, "black", 3, 44, true));
+
+        ProductServiceImpl productService = new ProductServiceImpl(products);
+        boolean isProductExist = productService.isProductExist(1l);
+
+        Assert.assertTrue(isProductExist);
+    }
+
+    @Test
+    public void testIsProductExistByIdWhenNoExist() {
+        List<Product> products = new ArrayList<Product>();
+        products.add(new Boots(1l, "mammut", 350f, 50f, "black", 3, 44, true));
+
+        ProductServiceImpl productService = new ProductServiceImpl(products);
+        boolean isProductExist = productService.isProductExist(32l);
+
+        Assert.assertFalse(isProductExist);
+    }
 }

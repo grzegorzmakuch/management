@@ -25,6 +25,10 @@ public class Product {
         this.productCount = productCount;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public String getProductName() {
         return productName;
     }

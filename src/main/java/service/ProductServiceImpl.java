@@ -37,4 +37,34 @@ public class ProductServiceImpl implements ProductService {
         }
         return null;
     }
+
+    @Override
+    public boolean isProductExist(String productName) {
+        for(Product product : products) {
+            if(product.getProductName().equals(productName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isProductOnWarehouse(String productName) {
+        for(Product product : products) {
+            if(isProductExist(productName) && product.getProductCount() > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isProductExist(Long productId) {
+        for(Product product : products) {
+            if(product.getId().equals(productId)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
