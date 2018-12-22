@@ -20,9 +20,6 @@ public class Boots extends entity.Product {
 
     @Override
     public String toString() {
-        return "Boots{" +
-                "size=" + size +
-                ", isNaturalSkin=" + isNaturalSkin +
-                "} " + super.toString();
+        return super.toString() + PRODUCT_SEPARATOR + size + PRODUCT_SEPARATOR + isNaturalSkin;
     }
 }
