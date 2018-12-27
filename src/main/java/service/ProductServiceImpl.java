@@ -1,69 +1,79 @@
 package service;
 
+import api.ProductDao;
 import api.ProductService;
+import dao.ProductDaoImpl;
 import entity.Product;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductServiceImpl implements ProductService {
 
-    List<Product> products;
+    private static ProductServiceImpl instance = null;
+    private ProductDao productDao = new ProductDaoImpl("products.data", "PRODUCT");
 
-    public ProductServiceImpl() {
-        products = new ArrayList<Product>();
+    private ProductServiceImpl() {
+
     }
 
-    public ProductServiceImpl(List<Product> products) {
-        this.products = products;
-    }
-
-    @Override
-    public List<Product> getAllProducts() {
-        return products;
-    }
-
-    @Override
-    public Integer getProductsAmount() {
-        return products.size();
-    }
-
-    @Override
-    public Product getProductByName(String productName) {
-        for(Product product : products) {
-            if(product.getProductName().equals(productName)) {
-                return product;
-            }
+    public static ProductServiceImpl getInstance() {
+        if(instance == null) {
+            instance = new ProductServiceImpl();
         }
-        return null;
+        return instance;
     }
 
-    @Override
+    public List<Product> getAllProducts() throws IOException {
+        return productDao.getAllProducts();
+    }
+
+    public Integer getProductsAmount() throws IOException {
+        return productDao.getAllProducts().size();
+    }
+
+    public Product getProductByName(String productName) throws IOException {
+        return productDao.getProductByProductName(productName);
+    }
+
     public boolean isProductExist(String productName) {
-        for(Product product : products) {
-            if(product.getProductName().equals(productName)) {
-                return true;
-            }
+        Product product = null;
+        try {
+            product = productDao.getProductByProductName(productName);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return false;
+
+        if(product == null) {
+            return false;
+        }
+        return true;
     }
 
-    @Override
-    public boolean isProductOnWarehouse(String productName) {
-        for(Product product : products) {
-            if(isProductExist(productName) && product.getProductCount() > 0) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
     public boolean isProductExist(Long productId) {
-        for(Product product : products) {
-            if(product.getId().equals(productId)) {
-                return true;
+        Product product = null;
+        try {
+            product = productDao.getProductById(productId);
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+
+        if(product == null) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isProductOnWarehouse(String productName) {
+        try {
+            for(Product product : getAllProducts()) {
+                if(isProductExist(productName) && product.getProductCount() > 0) {
+                    return true;
+                }
             }
+        } catch(IOException e) {
+            e.printStackTrace();
         }
         return false;
     }

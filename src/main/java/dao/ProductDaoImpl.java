@@ -14,20 +14,22 @@ public class ProductDaoImpl implements ProductDao {
     private final String fileName;
     private final String productType;
 
-    public ProductDaoImpl(String fileName, String productType) throws IOException {
+    public ProductDaoImpl(String fileName, String productType) {
         this.fileName = fileName;
         this.productType = productType;
-        FileUtils.createNewFile(fileName);
+        try {
+            FileUtils.createNewFile(fileName);
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
     public void saveProduct(Product product) throws IOException {
         List<Product> products = getAllProducts();
         products.add(product);
         saveProducts(products);
     }
 
-    @Override
     public void saveProducts(List<Product> products) throws FileNotFoundException {
         FileUtils.clearFile(fileName);
         PrintWriter printWriter = new PrintWriter(new FileOutputStream(fileName, true));
@@ -37,7 +39,6 @@ public class ProductDaoImpl implements ProductDao {
         printWriter.close();
     }
 
-    @Override
     public void removeProductById(Long productId) throws IOException {
         List<Product> products = getAllProducts();
         for(int i = 0; i < products.size(); i++) {
@@ -49,7 +50,6 @@ public class ProductDaoImpl implements ProductDao {
         saveProducts(products);
     }
 
-    @Override
     public void removeProductByName(String productName) throws IOException {
         List<Product> products = getAllProducts();
         for(int i = 0; i < products.size(); i++) {
@@ -61,7 +61,6 @@ public class ProductDaoImpl implements ProductDao {
         saveProducts(products);
     }
 
-    @Override
     public List<Product> getAllProducts() throws IOException {
         List<Product> products = new ArrayList<Product>();
         BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
@@ -76,7 +75,6 @@ public class ProductDaoImpl implements ProductDao {
         return products;
     }
 
-    @Override
     public Product getProductById(Long productId) throws IOException {
         List<Product> products = getAllProducts();
         for(Product product : products) {
@@ -88,7 +86,6 @@ public class ProductDaoImpl implements ProductDao {
         return null;
     }
 
-    @Override
     public Product getProductByProductName(String productName) throws IOException {
         List<Product> products = getAllProducts();
         for(Product product : products) {
